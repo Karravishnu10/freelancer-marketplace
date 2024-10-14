@@ -1,0 +1,230 @@
+/* static/style.css */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+.container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+select,
+input[type="range"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+input[type="range"] {
+  cursor: pointer;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  margin-right: 20px;
+}
+
+main {
+  text-align: center;
+  padding: 20px;
+}
+
+#stats {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+#stats div {
+  margin: 0 50px;
+  font-size: 1.5em;
+}
+
+#welcome-banner {
+  background-color: #444;
+  color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+input[type="search"] {
+  margin-top: 10px;
+  padding: 10px;
+  width: 200px;
+}
+
+button {
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #004494;
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+article {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-top: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+article h2 {
+  color: #333;
+}
+
+article p {
+  font-size: 14px;
+  color: #666;
+}
+
+article span {
+  font-weight: bold;
+  color: green;
+}
+
+article button {
+  padding: 5px 10px;
+  margin-left: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+article button:hover {
+  opacity: 0.8;
+}
+
+article button.save {
+  background-color: #0056b3;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin: 10px 0;
+}
+#contact-list {
+  float: left;
+  width: 30%;
+  background: #f0f0f0;
+  height: 80vh;
+  overflow-y: scroll;
+}
+
+.contact {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.contact img {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+}
+
+#message-interface {
+  float: right;
+  width: 70%;
+  height: 80vh;
+}
+
+#messages {
+  height: 90%;
+  overflow-y: scroll;
+  background: #fff;
+  padding: 20px;
+}
+
+#message-input {
+  height: 10%;
+  background: #eee;
+  display: flex;
+}
+
+#message-text {
+  flex-grow: 1;
+  border: none;
+  padding: 10px;
+}
+
+message-input button {
+  border: none;
+  background: #0056b3;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #333;
+  color: white;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  cursor: pointer;
+}

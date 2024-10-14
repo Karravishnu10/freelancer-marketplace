@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/styles.css" />
+    <title>Job Listings</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/home">Home</a>
+        <a href="/freelancerSearch">Freelancer Search</a>
+        <a href="/jobListings">Job Listings</a>
+        <a href="/createJobListings">Create Job Listings</a>
+        <a href="/messaging">Messaging</a>
+        <a href="/contractManagement">Contract Management</a>
+        <a href="/paymentDashboard">Payment Dashboard</a>
+        <a href="/accessibilitySettings">Accessibility Settings</a>
+        <a href="/helpCenter">Help Center</a>
+      </nav>
+    </header>
+    <main class="container">
+      <h1>Job Listings</h1>
+      <p>Browse and search for available job opportunities</p>
+      <form action="#" method="POST">
+        <input
+          type="search"
+          placeholder="Search jobs"
+          aria-label="Search jobs"
+        />
+        <select aria-label="Select category">
+          <option value="">Select category</option>
+          <!-- Dynamically list categories here -->
+        </select>
+        <select aria-label="Select skills">
+          <option value="">Select skills</option>
+          <!-- Dynamically list skills here -->
+        </select>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value="50"
+          aria-label="Maximum hourly rate"
+        />
+        <button type="submit">Search</button>
+      </form>
+      <section id="job-results">
+        <!-- Job listing should be loaded here dynamically -->
+        <article>
+          <h2>Mobile App Development</h2>
+          <p>
+            Require a content writer to produce high-quality articles for our
+            blog.
+          </p>
+          <span>$572</span> <button>Cancelled</button> <button>Save</button>
+        </article>
+        <article>
+          <h2>Content Writing</h2>
+          <p>
+            Develop a mobile application for our ecommerce platform with
+            user-friendly features.
+          </p>
+          <span>$384</span> <button>Cancelled</button> <button>Save</button>
+        </article>
+      </section>
+    </main>
+    <footer>
+      <p>© 2024 Freelance Platform</p>
+    </footer>
+  </body>
+</html>
