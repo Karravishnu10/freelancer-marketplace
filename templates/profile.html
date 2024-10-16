@@ -1,0 +1,54 @@
+{% extends 'nav.html' %} {% block title %}Profile{% endblock %} {% block content
+%}
+
+<main class="profile container mt-5">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Profile Details</h4>
+      <p><strong>Name:</strong> {{ user.name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p>
+        <strong>Minimum Hourly Rate:</strong> ${{ user.minimum_rate }} per hour
+      </p>
+      <p><strong>Skills:</strong> {{ user.skills }}</p>
+
+      <h5 class="mt-4">Update Your Profile</h5>
+      <form action="{{ url_for('profile') }}" method="POST" class="mt-3">
+        <div class="mb-3">
+          <label for="minimum_rate" class="form-label"
+            >Set Minimum Hourly Rate ($/hr):</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="minimum_rate"
+            id="minimum_rate"
+            placeholder="Enter minimum rate"
+            value="{{ user.minimum_rate }}"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="skills" class="form-label"
+            >Skills (comma separated):</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="skills"
+            id="skills"
+            placeholder="Enter skills"
+            value="{{ user.skills }}"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </form>
+
+      <!-- Logout button -->
+      <form action="/logout" method="POST" class="mt-4">
+        <button type="submit" class="btn btn-danger">Logout</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+{% endblock %}

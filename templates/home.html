@@ -1,53 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/static/styles.css" />
-    <title>Welcome to Our Freelance Platform</title>
-  </head>
-  <body>
-    <header>
-      <nav>
-        <a href="/home">Home</a>
-        <a href="/freelancerSearch">Freelancer Search</a>
-        <a href="/jobListings">Job Listings</a>
-        <a href="/createJobListings">Create Job Listings</a>
-        <a href="/messaging">Messaging</a>
-        <a href="/contractManagement">Contract Management</a>
-        <a href="/paymentDashboard">Payment Dashboard</a>
-        <a href="/accessibilitySettings">Accessibility Settings</a>
-        <a href="/helpCenter">Help Center</a>
-      </nav>
-    </header>
-    <main>
-      <section id="welcome-banner">
-        <h1>Welcome to Our Freelance Platform</h1>
-        <p>Find top talent and exciting job opportunities all in one place.</p>
-        <input
-          type="search"
-          placeholder="Search for jobs"
-          aria-label="Search for jobs"
-        />
-        <button>Search</button>
-        <button>Find Freelancers</button>
-      </section>
-      <section id="stats">
-        <div><strong>Active Freelancers</strong><span>0</span></div>
-        <div><strong>Available Jobs</strong><span>0</span></div>
-      </section>
-      <section id="featured-jobs">
-        <h2>Featured Job Listings</h2>
-        <p>Loading featured jobs...</p>
-      </section>
-      <section id="top-rated-freelancers">
-        <h2>Top-Rated Freelancers</h2>
-        <p>Loading top freelancers...</p>
-      </section>
-    </main>
-    <footer>
-      <p>© 2024 Freelance Platform</p>
-    </footer>
-    <script src="/static/script.js"></script>
-  </body>
-</html>
+{% extends 'nav.html' %} {% block title %}Home{% endblock %} {% block content %}
+<section id="welcome-banner">
+  <h1>Welcome to Our Freelance Platform</h1>
+  <p>Find top talent and exciting job opportunities all in one place.</p>
+  <input
+    type="search"
+    placeholder="Search for jobs"
+    aria-label="Search for jobs"
+  />
+  <button class="btn btn-primary">Search</button>
+  <button class="btn btn-secondary">Find Freelancers</button>
+</section>
+<section id="stats">
+  <div>
+    <strong>Active Freelancers</strong><span>{{ active_freelancers }}</span>
+  </div>
+  <div><strong>Available Jobs</strong><span>{{ available_jobs }}</span></div>
+</section>
+<section id="featured-jobs" class="d-flex justify-content-around">
+  <h2>Featured Job Listings</h2>
+  <div class="card" style="width: 18rem">
+    <div class="card-body">
+      <h5 class="card-title">{{ first_job.title }}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">
+        Budget: ${{ first_job.budget }}
+      </h6>
+    </div>
+  </div>
+</section>
+<section id="top-rated-freelancers" class="d-flex justify-content-around">
+  <h2>Top-Rated Freelancers</h2>
+  <div class="card" style="width: 18rem">
+    <div class="card-body">
+      <h5 class="card-title">{{ first_user.name }}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{ first_user.email }}</h6>
+    </div>
+  </div>
+</section>
+{% endblock %}

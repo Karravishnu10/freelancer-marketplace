@@ -1,52 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/static/styles.css" />
-    <title>Messaging</title>
-  </head>
-  <body>
-    <header>
-      <nav>
-        <a href="/home">Home</a>
-        <a href="/freelancerSearch">Freelancer Search</a>
-        <a href="/jobListings">Job Listings</a>
-        <a href="/createJobListings">Create Job Listings</a>
-        <a href="/messaging">Messaging</a>
-        <a href="/contractManagement">Contract Management</a>
-        <a href="/paymentDashboard">Payment Dashboard</a>
-        <a href="/accessibilitySettings">Accessibility Settings</a>
-        <a href="/helpCenter">Help Center</a>
-      </nav>
-    </header>
-    <main class="container">
-      <h1>Messaging</h1>
-      <p>View and manage your conversations with other users.</p>
-      <div id="contact-list">
-        <div class="contact">
-          <img src="path_to_default_avatar.png" alt="User Avatar" />
-          <div>
-            <h2>Freelancer One</h2>
-            <p>41Perry84@yahoo.com</p>
-          </div>
-        </div>
-        <!-- More contacts -->
+{% extends 'nav.html' %} {% block title %}Messages{% endblock %} {% block
+content %}
+<main class="container">
+  <h1>Messaging</h1>
+  <p>View and manage your conversations with other users.</p>
+  <div id="contact-list">
+    <div class="contact">
+      <img src="path_to_default_avatar.png" alt="User Avatar" />
+      <div>
+        <h2>Freelancer One</h2>
+        <p>41Perry84@yahoo.com</p>
       </div>
-      <div id="message-interface">
-        <div id="messages">
-          <!-- Messages will be dynamically loaded here -->
-        </div>
-        <div id="message-input">
-          <input type="text" placeholder="Type a message" id="message-text" />
-          <button onclick="sendMessage()">Send</button>
-          <button onclick="sendVoiceMessage()">Voice</button>
-        </div>
-      </div>
-    </main>
-    <footer>
-      <p>© 2024 Freelance Platform</p>
-    </footer>
-    <script src="/static/script.js"></script>
-  </body>
-</html>
+    </div>
+    <!-- More contacts -->
+  </div>
+  <div id="message-interface">
+    <div id="messages">
+      <!-- Messages will be dynamically loaded here -->
+    </div>
+    <div id="message-input">
+      <input type="text" placeholder="Type a message" id="message-text" />
+      <button onclick="sendMessage()">Send</button>
+      <button onclick="sendVoiceMessage()">Voice</button>
+    </div>
+  </div>
+</main>
+{% endblock %}

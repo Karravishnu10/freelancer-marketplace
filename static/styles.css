@@ -1,156 +1,203 @@
-/* static/style.css */
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #f8f9fa;
+  color: #212529;
   margin: 0;
   padding: 0;
-  height: 100vh;
-}
-
-.container {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  margin-bottom: 5px;
-}
-
-input[type="email"],
-input[type="text"],
-input[type="password"] {
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-select,
-input[type="range"] {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  margin-bottom: 15px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-}
-
-input[type="range"] {
-  cursor: pointer;
-}
-
-header {
-  background-color: #333;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  padding: 10px;
-  margin-right: 20px;
-}
-
-main {
-  text-align: center;
-  padding: 20px;
-}
-
-#stats {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-#stats div {
-  margin: 0 50px;
-  font-size: 1.5em;
 }
 
 #welcome-banner {
-  background-color: #444;
-  color: white;
+  background-color: #ffffff; /* White background for contrast */
   padding: 20px;
-  margin-bottom: 20px;
+  text-align: center; /* Center the text */
+  margin-bottom: 20px; /* Space below the banner */
 }
 
-input[type="search"] {
-  margin-top: 10px;
+#welcome-banner input[type="search"] {
+  width: 50%; /* Make search bar adequately wide */
   padding: 10px;
-  width: 200px;
+  margin-top: 20px;
+  border: 2px solid #ccc; /* Subtle border */
+  border-radius: 5px; /* Rounded corners */
 }
 
-button {
+#welcome-banner button {
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer; /* Pointer on hover */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and text color */
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
   background-color: #0056b3;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  margin-left: 10px;
-  cursor: pointer;
 }
 
-button:hover {
-  background-color: #004494;
+.btn-secondary {
+  background-color: #6c757d;
+  color: #ffffff;
 }
 
-footer {
-  background-color: #333;
-  color: white;
-  padding: 10px 20px;
+.btn-secondary:hover {
+  background-color: #545b62;
+}
+
+/* Stats Section */
+#stats {
+  display: flex;
+  justify-content: space-around; /* Space out the stats */
+  background-color: #e9ecef; /* Light background for the stats area */
+  padding: 10px 0;
+}
+
+#stats div {
+  text-align: center; /* Center the text inside each stat */
+}
+
+/* Featured Jobs and Freelancers */
+#featured-jobs,
+#top-rated-freelancers {
+  padding: 20px;
+  margin-bottom: 20px; /* Space below each section */
+  background-color: #ffffff; /* White background for sections */
+  border-radius: 8px; /* Rounded corners for sections */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.card {
+  margin: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+  padding: 15px;
+  position: relative;
+}
+
+.card-title {
+  font-size: 18px;
+  color: #0056b3;
+}
+
+.card-subtitle {
+  font-size: 16px;
+  color: #6c757d; /* Muted text for subtitles */
+}
+
+/* General Styling for Container and Typography */
+.container,
+.createjobscontainer {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  font-family: Arial, sans-serif;
+}
+
+.container h1 {
+  color: #333;
   text-align: center;
 }
 
-article {
-  background: #f9f9f9;
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-top: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-article h2 {
-  color: #333;
-}
-
-article p {
-  font-size: 14px;
+.container p {
   color: #666;
+  line-height: 1.6;
+  margin-bottom: 10px;
 }
 
-article span {
-  font-weight: bold;
-  color: green;
+/* Styling for Form */
+.container,
+.createjobscontainer form {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
 }
 
-article button {
-  padding: 5px 10px;
-  margin-left: 10px;
-  background-color: red;
+.container input[type="search"],
+select,
+input[type="range"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.container button {
+  background-color: #007bff;
   color: white;
   border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
   cursor: pointer;
+  display: block;
+  width: 100%;
 }
 
-article button:hover {
-  opacity: 0.8;
-}
-
-article button.save {
+.container button:hover {
   background-color: #0056b3;
 }
 
-input[type="range"] {
+.createjobscontainerinput {
   width: 100%;
-  margin: 10px 0;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
+
+.joblistingcontainer {
+  background-color: #fff; /* Optional: for a lighter theme */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-group.mb-3,
+.form-select {
+  max-width: 600px;
+  margin: auto;
+}
+
+.badge.bg-info {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+/* Styling for Freelancer Results */
+#freelancer-results div {
+  background-color: #f1f1f1;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+#freelancer-results p {
+  margin: 5px 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  form {
+    padding: 10px;
+  }
+}
+
 #contact-list {
   float: left;
   width: 30%;
@@ -227,4 +274,295 @@ button {
   color: white;
   border: none;
   cursor: pointer;
+}
+
+.navbar {
+  background-color: #343a40;
+  padding: 10px 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand span {
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  list-style: none;
+  padding: 0 15px;
+}
+
+.nav-links a {
+  color: #f8f9fa;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 8px;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #ffc107;
+}
+
+.hamburger-menu {
+  margin: 0 15px;
+}
+.hamburger-menu:hover svg path {
+  stroke: #ffc107;
+}
+
+.dropdown-menu {
+  display: none; /* Hidden by default, shown on click */
+  position: absolute; /* Positioned relative to its parent */
+  background-color: #343a40; /* Same as navbar for consistency */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border: 1px solid #474f57; /* Slight border for definition */
+  z-index: 1000; /* Ensures dropdown is on top */
+  right: 0; /* Aligns the dropdown to the right */
+  top: 100%; /* Directly below the toggle element */
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-menu li {
+  list-style: none; /* No bullets */
+}
+
+.dropdown-menu a {
+  display: block; /* Links take up the full width of the dropdown */
+  padding: 10px 20px; /* Matching padding for alignment with the navbar */
+  color: #505960; /* Same text color as navbar links */
+  white-space: nowrap; /* Prevents wrapping of text */
+}
+
+.dropdown-menu a:hover {
+  background-color: #f8f9fa; /* Darker grey for hover */
+}
+
+/* Show dropdown when menu is clicked */
+.hamburger-menu.active .dropdown-menu {
+  display: block; /* Show dropdown */
+}
+
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Signup box styling (similar to login box) */
+.signup-box {
+  background-color: #e8f5e9; /* Light green background */
+  padding: 20px 40px;
+  border-radius: 10px;
+  width: 350px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  color: #004d40; /* Dark green text */
+}
+
+/* Signup box heading */
+.signup-box h2 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #004d40;
+  text-align: center;
+}
+
+/* Form group styling */
+.signup-box .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+/* Input field styling */
+.signup-box input,
+.signup-box select {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #4caf50;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #004d40;
+}
+
+/* Signup button styling */
+.btn-signup {
+  padding: 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.btn-signup:hover {
+  background-color: #388e3c;
+}
+
+/* Login text styling */
+.login-text {
+  margin-top: 20px;
+  color: #004d40;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.login-text a {
+  color: #00796b;
+  text-decoration: none;
+}
+
+.login-text a:hover {
+  text-decoration: underline;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #121212;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.login-box {
+  background-color: #e8f5e9;
+  padding: 40px;
+  border-radius: 10px;
+  width: 350px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  color: #004d40; /* Dark green text */
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #004d40;
+  text-align: center;
+}
+
+.login-box label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1.1rem;
+  color: #004d40;
+}
+
+.login-box input {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #4caf50;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #004d40;
+}
+
+.login-box .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.btn-login {
+  padding: 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.btn-login:hover {
+  background-color: #388e3c;
+}
+
+.signup-text {
+  margin-top: 20px;
+  color: #004d40;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.signup-text a {
+  color: #00796b;
+  text-decoration: none;
+}
+
+.signup-text a:hover {
+  text-decoration: underline;
+}
+
+.card {
+  background-color: #fff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-title {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.form-label {
+  font-weight: bold;
+  color: #555;
+}
+
+/* Style inputs for better visual integration */
+.input-group-text,
+.form-control {
+  border-radius: 0.25rem;
+}
+
+/* Button styling for a more uniform appearance */
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+/* Additional spacing for forms and buttons for better UX */
+form + form {
+  margin-top: 20px;
+}
+
+input[type="text"] {
+  margin-bottom: 10px; /* Space between inputs and the next elements */
 }

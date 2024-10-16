@@ -1,68 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/static/styles.css" />
-    <title>Find Freelancers</title>
-  </head>
-  <body>
-    <header>
-      <nav>
-        <a href="/home">Home</a>
-        <a href="/freelancerSearch">Freelancer Search</a>
-        <a href="/jobListings">Job Listings</a>
-        <a href="/createJobListings">Create Job Listings</a>
-        <a href="/messaging">Messaging</a>
-        <a href="/contractManagement">Contract Management</a>
-        <a href="/paymentDashboard">Payment Dashboard</a>
-        <a href="/accessibilitySettings">Accessibility Settings</a>
-        <a href="/helpCenter">Help Center</a>
-      </nav>
-    </header>
-    <main class="container">
-      <h1>Find Freelancers</h1>
-      <p>
-        Search for skilled freelancers based on their expertise, ratings, and
-        availability.
-      </p>
-      <form action="#" method="POST">
-        <input
-          type="search"
-          placeholder="Search freelancers by name or email"
-          aria-label="Search freelancers"
-        />
-        <select aria-label="Select skills">
+{% extends 'nav.html' %} {% block title %}Find Freelancers{% endblock %} {%
+block content %}
+<main class="container mt-5">
+  <h1 class="mb-4 text-center">Find Freelancers</h1>
+  <p class="text-center">
+    Search for skilled freelancers based on their expertise, ratings, and
+    availability.
+  </p>
+  <form action="{{ url_for('find_freelancers') }}" method="POST" class="mb-4">
+    <div class="mb-3">
+      <input
+        type="search"
+        name="search"
+        class="form-control"
+        placeholder="Search freelancers by name or email"
+        aria-label="Search freelancers"
+      />
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <select name="skill" class="form-select" aria-label="Select skills">
           <option value="">Select skills</option>
-          <!-- Dynamically list skills here -->
+          {% for skill in skills %}
+          <option value="{{ skill }}">{{ skill }}</option>
+          {% endfor %}
         </select>
-        <label for="min-rating">Minimum Rating:</label>
-        <select id="min-rating" aria-label="Minimum rating">
-          <!-- Options for rating -->
+      </div>
+      <div class="col-md-3 mb-3">
+        <select
+          id="min-rating"
+          name="min-rating"
+          class="form-select"
+          aria-label="Minimum rating"
+        >
           <option value="1">★☆☆☆☆</option>
           <option value="2">★★☆☆☆</option>
           <option value="3">★★★☆☆</option>
           <option value="4">★★★★☆</option>
           <option value="5">★★★★★</option>
         </select>
-        <label for="max-rate">Maximum Hourly Rate:</label>
+      </div>
+      <div class="col-md-3">
         <input
           type="range"
           id="max-rate"
           name="max-rate"
+          class="form-range"
           min="0"
           max="100"
           value="50"
           aria-label="Maximum hourly rate"
         />
-        <button type="submit">Search</button>
-      </form>
-      <div id="freelancer-results">
-        <p>Loading freelancers...</p>
       </div>
-    </main>
-    <footer>
-      <p>© 2024 Freelance Platform</p>
-    </footer>
-  </body>
-</html>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+  <div id="freelancer-results">
+    {% if freelancers %} {% for freelancer in freelancers %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">{{ freelancer.name }}</h5>
+        <p class="card-text">{{ freelancer.email }}</p>
+        <p class="card-text">Skills: {{ freelancer.skills }}</p>
+        <p class="card-text">Rate: ${{ freelancer.minimum_rate }}/hr</p>
+        <p class="card-text">Rating: {{ freelancer.rating }}</p>
+      </div>
+    </div>
+    {% endfor %} {% else %}
+    <p>No freelancers found.</p>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

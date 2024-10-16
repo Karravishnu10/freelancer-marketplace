@@ -1,85 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/static/styles.css" />
-    <title>Create a New Job Listing</title>
-  </head>
-  <body>
-    <header>
-      <nav>
-        <a href="/home">Home</a>
-        <a href="/freelancerSearch">Freelancer Search</a>
-        <a href="/jobListings">Job Listings</a>
-        <a href="/createJobListings">Create Job Listings</a>
-        <a href="/messaging">Messaging</a>
-        <a href="/contractManagement">Contract Management</a>
-        <a href="/paymentDashboard">Payment Dashboard</a>
-        <a href="/accessibilitySettings">Accessibility Settings</a>
-        <a href="/helpCenter">Help Center</a>
-      </nav>
-    </header>
-    <main class="container">
-      <h1>Create a New Job Listing</h1>
-      <form action="/createJobListings" method="post">
-        <label for="job-title">* Job Title</label>
-        <input
-          type="text"
-          id="job-title"
-          name="job_title"
-          required
-          placeholder="Enter job title"
-        />
+{% extends 'nav.html' %} {% block title %}Create Jobs{% endblock %} {% block
+content %}
+<main class="createjobscontainer mt-5">
+  <h1 class="mb-4">Create a New Job Listing</h1>
+  <form
+    action="/createJobListings"
+    method="post"
+    class="needs-validation"
+    novalidate
+  >
+    <div class="mb-3">
+      <label for="job-title" class="form-label">* Job Title</label>
+      <input
+        type="text"
+        class="createjobscontainerinput"
+        id="job-title"
+        name="job_title"
+        required
+        placeholder="Enter job title"
+      />
+      <div class="invalid-feedback">Please provide a job title.</div>
+    </div>
 
-        <label for="project-description">* Project Description</label>
-        <textarea
-          id="project-description"
-          name="project_description"
-          required
-          placeholder="Describe the project in detail"
-        ></textarea>
+    <div class="mb-3">
+      <label for="project-description" class="form-label"
+        >* Project Description</label
+      >
+      <textarea
+        class="createjobscontainerinput"
+        id="project-description"
+        name="project_description"
+        required
+        placeholder="Describe the project in detail"
+      ></textarea>
+      <div class="invalid-feedback">
+        Please enter a detailed project description.
+      </div>
+    </div>
 
-        <label for="budget">* Budget</label>
-        <input
-          type="text"
-          id="budget"
-          name="budget"
-          required
-          placeholder="Enter budget"
-        />
+    <div class="mb-3">
+      <label for="category" class="form-label">Category</label>
+      <select
+        class="createjobscontainerinput"
+        id="category"
+        name="category"
+        required
+      >
+        <option value="">Select a category</option>
+        {% for category in categories %}
+        <option value="{{ category.id }}">{{ category.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-        <label for="project-duration">Project Duration</label>
-        <select id="project-duration" name="project_duration">
-          <option value="">Select project duration</option>
-          <option value="1 week">1 week</option>
-          <option value="1 month">1 month</option>
-          <option value="3 months">3 months</option>
-          <!-- Additional durations -->
-        </select>
+    <div class="mb-3">
+      <label for="budget" class="form-label">* Budget</label>
+      <input
+        type="text"
+        class="createjobscontainerinput"
+        id="budget"
+        name="budget"
+        required
+        placeholder="Enter budget"
+      />
+    </div>
 
-        <label for="experience-level">Required Experience Level</label>
-        <select id="experience-level" name="experience_level">
-          <option value="">Select required experience level</option>
-          <option value="beginner">Beginner</option>
-          <option value="intermediate">Intermediate</option>
-          <option value="expert">Expert</option>
-          <!-- Additional experience levels -->
-        </select>
+    <div class="mb-3">
+      <label for="project-duration" class="form-label">Project Duration</label>
+      <select
+        class="createjobscontainerinput"
+        id="project-duration"
+        name="project_duration"
+      >
+        <option value="">Select project duration</option>
+        <option value="1 week">1 week</option>
+        <option value="1 month">1 month</option>
+        <option value="3 months">3 months</option>
+      </select>
+    </div>
 
-        <label for="skills">Required Skills</label>
-        <input
-          type="text"
-          id="skills"
-          name="skills"
-          placeholder="Enter required skills"
-        />
+    <div class="mb-3">
+      <label for="experience-level" class="form-label"
+        >Required Experience Level</label
+      >
+      <select
+        class="createjobscontainerinput"
+        id="experience-level"
+        name="experience_level"
+      >
+        <option value="">Select required experience level</option>
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="expert">Expert</option>
+      </select>
+    </div>
 
-        <button type="submit">Create Job Listing</button>
-      </form>
-    </main>
-    <footer>
-      <p>© 2024 Freelance Platform</p>
-    </footer>
-  </body>
-</html>
+    <div class="mb-3">
+      <label for="skills" class="form-label">Required Skills</label>
+      <input
+        type="text"
+        class="createjobscontainerinput"
+        id="skills"
+        name="skills"
+        placeholder="Enter required skills"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Job Listing</button>
+  </form>
+</main>
+{% endblock %}

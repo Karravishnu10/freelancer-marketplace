@@ -1,72 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/static/styles.css" />
-    <title>Contract Management</title>
-  </head>
-  <body>
-    <header>
-      <nav>
-        <a href="/home">Home</a>
-        <a href="/freelancerSearch">Freelancer Search</a>
-        <a href="/jobListings">Job Listings</a>
-        <a href="/createJobListings">Create Job Listings</a>
-        <a href="/messaging">Messaging</a>
-        <a href="/contractManagement">Contract Management</a>
-        <a href="/paymentDashboard">Payment Dashboard</a>
-        <a href="/accessibilitySettings">Accessibility Settings</a>
-        <a href="/helpCenter">Help Center</a>
-      </nav>
-    </header>
-    <main class="container">
-      <h1>Contract Management</h1>
-      <p>
-        View and manage your active and past contracts. As a client, you can
-        create new contract proposals.
-      </p>
-      <button onclick="window.location.href='/create-contract'">
-        + Create Contract Proposal
-      </button>
-      <table>
-        <thead>
-          <tr>
-            <th>Job Title</th>
-            <th>Freelancer</th>
-            <th>Employer</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Dynamically populate this section with data from the server -->
-          <tr>
-            <td>SEO Optimization</td>
-            <td>John Doe</td>
-            <td>Jane Smith</td>
-            <td>2025-04-14</td>
-            <td>2025-04-14</td>
-            <td>Completed</td>
-            <td><button>View</button></td>
-          </tr>
-          <tr>
-            <td>Mobile App Development</td>
-            <td>Jane Smith</td>
-            <td>John Doe</td>
-            <td>2024-11-13</td>
-            <td>2025-08-05</td>
-            <td>Pending</td>
-            <td><button>View</button></td>
-          </tr>
-          <!-- More rows -->
-        </tbody>
-      </table>
-    </main>
-    <footer>
-      <p>© 2024 Freelance Platform</p>
-    </footer>
-  </body>
-</html>
+{% extends 'nav.html' %} {% block title %}Contract Management{% endblock %} {%
+block content %}
+<main class="container">
+  <h1>Contract Management</h1>
+  <p>
+    View and manage your active and past contracts. As a client, you can create
+    new contract proposals.
+  </p>
+  <button onclick="window.location.href='/create-contract'">
+    + Create Contract Proposal
+  </button>
+  <table>
+    <thead>
+      <tr>
+        <th>Job Title</th>
+        <th>Freelancer</th>
+        <th>Employer</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contract in contracts %}
+      <tr>
+        <td>{{ contract.job.title }}</td>
+        <td>{{ contract.freelancer.name }}</td>
+        <td>{{ contract.employer.name }}</td>
+        <td>
+          {{ contract.start_date.strftime('%Y-%m-%d') if contract.start_date
+          else '-' }}
+        </td>
+        <td>
+          {{ contract.end_date.strftime('%Y-%m-%d') if contract.end_date else
+          '-' }}
+        </td>
+        <td>{{ contract.status }}</td>
+        <td>
+          <button
+            onclick="window.location.href='/view_contract/{{ contract.id }}'"
+          >
+            View
+          </button>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="7">No contracts found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</main>
+{% endblock %}
