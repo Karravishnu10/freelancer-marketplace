@@ -5,3 +5,4 @@ Flask-SQLAlchemy==2.5.1
 Jinja2==3.0.1
 SQLAlchemy==1.4.15
 Werkzeug==2.0.1
+stripe==7.7.0
