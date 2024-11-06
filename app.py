@@ -23,21 +23,6 @@ migrate = Migrate(app, db)
 # Stripe configuration
 stripe.api_key = 'sk_test_51OIS6hGfhJguOr7SCrwqtCPyCvnBCwwEcHsbv79JtwAJunR2Su6ji4GZx5jrGlULmvT0Ipx5g3pJjqI4uc3kDMfU00uPCuGOtm'
 
-# Ensure database creation at startup
-with app.app_context():
-    if not os.path.exists('/tmp/site.db'):
-        db.create_all()
-        add_categories()
-    app.logger.debug('Database and categories created at /tmp/site.db')
-
-@app.before_request
-def before_request_func():
-    # Ensure the database and tables exist before each request
-    if not os.path.exists('/tmp/site.db'):
-        with app.app_context():
-            db.create_all()
-            add_categories()
-        app.logger.debug('Database recreated and categories added at /tmp/site.db')
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -128,6 +113,20 @@ class Notification(db.Model):
     user = db.relationship('User', backref='notifications')
 
 
+with app.app_context():
+    if not os.path.exists('tmp/site.db'):
+        db.create_all()
+        add_categories()
+    app.logger.debug('Database and categories created at tmp/site.db')
+
+@app.before_request
+def before_request_func():
+    # Ensure the database and tables exist before each request
+    if not os.path.exists('tmp/site.db'):
+        with app.app_context():
+            db.create_all()
+            add_categories()
+        app.logger.debug('Database recreated and categories added at tmp/site.db')
 
 
 @app.route('/')
