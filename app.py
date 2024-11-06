@@ -12,7 +12,9 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/site.db?timeout=30'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/site.db?timeout=30'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/database.db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'your_secret_key'  # Change this to a real secret key in production sqlite:///site.db?timeout=30
 db = SQLAlchemy(app)
