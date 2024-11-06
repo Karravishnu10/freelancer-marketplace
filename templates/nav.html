@@ -13,62 +13,85 @@
   <body>
     <!-- Navbar -->
     <header>
-      <nav class="navbar">
+      <nav class="navbar" aria-label="Main Navigation">
         <div class="navbar-brand">
           <span>Freelancer</span>
         </div>
-        <ul class="nav-links">
-          <li>
+        <ul class="nav-links" role="menubar">
+          <li role="none">
             <a
               href="/home"
+              role="menuitem"
               class="{% if request.path == '/home' %}active{% endif %}"
               >Home</a
             >
           </li>
-          <li>
+          <li role="none">
             <a
               href="/freelancerSearch"
+              role="menuitem"
               class="{% if request.path == '/freelancerSearch' %}active{% endif %}"
               >Freelancers</a
             >
           </li>
-          <li>
+          <li role="none">
             <a
               href="/jobListings"
+              role="menuitem"
               class="{% if request.path == '/jobListings' %}active{% endif %}"
               >Jobs</a
             >
           </li>
-          <li>
+          <li role="none">
             <a
               href="/createJobListings"
+              role="menuitem"
               class="{% if request.path == '/createJobListings' %}active{% endif %}"
               >Create Jobs</a
             >
           </li>
-          <li>
+          <li role="none">
             <a
               href="/messaging"
+              role="menuitem"
               class="{% if request.path == '/messaging' %}active{% endif %}"
               >Messaging</a
             >
           </li>
-          <li>
+          <li role="none">
             <a
               href="/contractManagement"
+              role="menuitem"
               class="{% if request.path == '/contractManagement' %}active{% endif %}"
               >Contracts</a
             >
           </li>
-          <li>
+          <li role="none">
             <a
               href="/paymentDashboard"
+              role="menuitem"
               class="{% if request.path == '/paymentDashboard' %}active{% endif %}"
               >Payments</a
             >
           </li>
+          <li>
+            <button
+              id="voice-command-btn"
+              onclick="toggleVoiceCommand()"
+              class="voice-command-btn"
+              aria-label="Activate voice command"
+            >
+              Voice Command
+            </button>
+          </li>
 
-          <div class="hamburger-menu" onclick="toggleMenu()">
+          <div
+            class="hamburger-menu"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-label="Toggle Menu"
+            onclick="toggleMenu()"
+          >
             <svg
               width="25px"
               height="25px"
@@ -97,14 +120,23 @@
               </defs>
             </svg>
             <ul class="dropdown-menu" id="hamburgerDropdown">
-              <li>
-                <a href="/accessibilitySettings">Accessibility Settings</a>
+              <li role="none">
+                <div
+                  id="accessibilityButton"
+                  role="menuitem"
+                  onclick="toggleAccessibilityPanel()"
+                >
+                  Accessibility Settings
+                </div>
               </li>
-              <li><a href="/helpCenter">Help Center</a></li>
+              <li role="none">
+                <a role="menuitem" href="/helpcenter">Help Center</a>
+              </li>
             </ul>
           </div>
           <li>
             <a
+              role="menuitem"
               href="/profile"
               class="{% if request.path == '/profile' %}active{% endif %}"
               >Profile</a
@@ -114,6 +146,48 @@
       </nav>
     </header>
 
+    <div
+      id="accessibilityToolbar"
+      class="accessibility-toolbar"
+      role="dialog"
+      aria-labelledby="accessibilityTitle"
+      aria-hidden="true"
+      style="display: none; left: -260px; position: fixed"
+    >
+      <h3>Accessibility Tools</h3>
+      <ul>
+        <li><button onclick="increaseText()">🔍 Increase Text</button></li>
+        <li><button onclick="decreaseText()">🔍 Decrease Text</button></li>
+        <li><button onclick="toggleGrayscale()">🎨 Grayscale</button></li>
+        <li>
+          <button onclick="toggleHighContrast()">🌓 High Contrast</button>
+        </li>
+        <li>
+          <button onclick="toggleNegativeContrast()">
+            ⚫ Negative Contrast
+          </button>
+        </li>
+        <li>
+          <button onclick="toggleLightBackground()">🌞 Light Background</button>
+        </li>
+        <li><button onclick="underlineLinks()">🔗 Links Underline</button></li>
+        <li>
+          <button onclick="toggleReadableFont()">👓 Readable Font</button>
+        </li>
+        <li><button onclick="resetAccessibility()">🔄 Reset</button></li>
+      </ul>
+    </div>
+    <div id="notifications-container" style="display: none">
+      {% for notification in notifications %}
+      <div
+        class="notification-item"
+        role="alert"
+        data-id="{{ notification.id }}"
+        data-message="{{ notification.message }}"
+      ></div>
+      {% endfor %}
+    </div>
+
     <!-- Dynamic Content -->
     <main>
       {% block content %}
@@ -122,5 +196,350 @@
     </main>
 
     <script src="/static/script.js"></script>
+    <script>
+      // Toggle Menu for Accessibility
+      function toggleMenu() {
+        const dropdown = document.getElementById("hamburgerDropdown");
+        const expanded = dropdown.getAttribute("aria-expanded") === "true";
+        dropdown.style.display = expanded ? "none" : "block";
+        dropdown.setAttribute("aria-expanded", !expanded);
+      }
+
+      function toggleAccessibilityPanel() {
+        const panel = document.getElementById("accessibilityToolbar");
+        if (!panel) {
+          console.error("Accessibility toolbar not found.");
+          return;
+        }
+        // Get current aria-hidden state and toggle it
+        const isHidden = panel.getAttribute("aria-hidden") === "true";
+        panel.setAttribute("aria-hidden", !isHidden);
+        // Toggle visibility by changing display property and positioning
+        panel.style.display = isHidden ? "block" : "none";
+        panel.style.left = isHidden ? "0px" : "-260px";
+      }
+      function increaseText() {
+        document.body.style.fontSize = "larger";
+        localStorage.setItem("fontSize", "larger");
+      }
+
+      function decreaseText() {
+        document.body.style.fontSize = "smaller";
+        localStorage.setItem("fontSize", "smaller");
+      }
+
+      function toggleGrayscale() {
+        if (document.body.classList.contains("grayscale")) {
+          document.body.classList.remove("grayscale");
+          localStorage.removeItem("grayscale");
+        } else {
+          document.body.classList.add("grayscale");
+          localStorage.setItem("grayscale", "true");
+        }
+      }
+
+      function toggleHighContrast() {
+        if (document.body.classList.contains("high-contrast")) {
+          document.body.classList.remove("high-contrast");
+          localStorage.removeItem("highContrast");
+        } else {
+          document.body.classList.add("high-contrast");
+          localStorage.setItem("highContrast", "true");
+        }
+      }
+
+      function toggleNegativeContrast() {
+        if (document.body.classList.contains("negative-contrast")) {
+          document.body.classList.remove("negative-contrast");
+          localStorage.removeItem("negativeContrast");
+        } else {
+          document.body.classList.add("negative-contrast");
+          localStorage.setItem("negativeContrast", "true");
+        }
+      }
+
+      function toggleLightBackground() {
+        if (document.body.classList.contains("light-background")) {
+          document.body.classList.remove("light-background");
+          localStorage.removeItem("lightBackground");
+        } else {
+          document.body.classList.add("light-background");
+          localStorage.setItem("lightBackground", "true");
+        }
+      }
+
+      function underlineLinks() {
+        const links = document.querySelectorAll("a");
+        const underline = localStorage.getItem("linksUnderline") === "true";
+        links.forEach((link) => {
+          link.style.textDecoration = underline ? "none" : "underline";
+        });
+        localStorage.setItem("linksUnderline", !underline);
+      }
+
+      function toggleReadableFont() {
+        if (document.body.classList.contains("readable-font")) {
+          document.body.classList.remove("readable-font");
+          localStorage.removeItem("readableFont");
+        } else {
+          document.body.classList.add("readable-font");
+          localStorage.setItem("readableFont", "true");
+        }
+      }
+
+      function resetAccessibility() {
+        document.body.style.fontSize = "";
+        document.body.classList.remove(
+          "grayscale",
+          "high-contrast",
+          "negative-contrast",
+          "light-background",
+          "readable-font"
+        );
+
+        const links = document.querySelectorAll("a");
+        links.forEach((link) => {
+          link.style.textDecoration = "none";
+        });
+
+        // Clear all saved settings in localStorage
+        localStorage.removeItem("fontSize");
+        localStorage.removeItem("grayscale");
+        localStorage.removeItem("highContrast");
+        localStorage.removeItem("negativeContrast");
+        localStorage.removeItem("lightBackground");
+        localStorage.removeItem("linksUnderline");
+        localStorage.removeItem("readableFont");
+      }
+
+      // Function to apply saved settings on page load
+      function applySavedSettings() {
+        const fontSize = localStorage.getItem("fontSize");
+        if (fontSize) {
+          document.body.style.fontSize = fontSize;
+        }
+
+        if (localStorage.getItem("grayscale")) {
+          document.body.classList.add("grayscale");
+        }
+
+        if (localStorage.getItem("highContrast")) {
+          document.body.classList.add("high-contrast");
+        }
+
+        if (localStorage.getItem("negativeContrast")) {
+          document.body.classList.add("negative-contrast");
+        }
+
+        if (localStorage.getItem("lightBackground")) {
+          document.body.classList.add("light-background");
+        }
+
+        if (localStorage.getItem("readableFont")) {
+          document.body.classList.add("readable-font");
+        }
+
+        if (localStorage.getItem("linksUnderline") === "true") {
+          const links = document.querySelectorAll("a");
+          links.forEach((link) => {
+            link.style.textDecoration = "underline";
+          });
+        }
+      }
+
+      // Apply settings on page load
+      document.addEventListener("DOMContentLoaded", applySavedSettings);
+    </script>
+    <style>
+      /* Accessibility Button */
+      #accessibilityButton {
+        top: 20%;
+        left: 0;
+        padding: 10px 20px;
+        border: none;
+        color: #505960;
+        cursor: pointer;
+        z-index: 1001;
+      }
+
+      #accessibilityButton:hover {
+        background-color: #505960;
+        color: #ffc107;
+      }
+
+      /* Accessibility Toolbar */
+      .accessibility-toolbar {
+        position: fixed;
+        top: 0;
+        left: -260px; /* Initially hidden off-screen */
+        width: 260px;
+        height: 100%;
+        background-color: #f4f4f4;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        transition: left 0.3s ease-in-out;
+        z-index: 1000;
+      }
+
+      .accessibility-toolbar h3 {
+        font-size: 1.2em;
+        margin-bottom: 15px;
+      }
+
+      .accessibility-toolbar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .accessibility-toolbar ul li {
+        margin-bottom: 15px;
+      }
+
+      .accessibility-toolbar button {
+        background: none;
+        border: none;
+        color: #007bff;
+        font-size: 1em;
+        text-align: left;
+        width: 100%;
+        cursor: pointer;
+      }
+
+      .accessibility-toolbar button:hover {
+        text-decoration: underline;
+      }
+      /* Accessibility Feature Styles */
+      .grayscale {
+        filter: grayscale(100%);
+      }
+
+      .high-contrast {
+        background-color: #000;
+        color: #fff;
+      }
+
+      .negative-contrast {
+        background-color: #fff;
+        color: #000;
+      }
+
+      .light-background {
+        background-color: #f0f0f0;
+        color: #000;
+      }
+
+      .readable-font {
+        font-family: Arial, sans-serif;
+        font-size: 1.2em;
+      }
+    </style>
+    <script>
+      let recognition;
+
+      // Check for browser support for Web Speech API
+      if ("webkitSpeechRecognition" in window) {
+        recognition = new webkitSpeechRecognition();
+        recognition.continuous = false; // Stops automatically after the user is done speaking
+        recognition.interimResults = false; // Don't show interim results
+        recognition.lang = "en-US"; // Set the language for recognition
+
+        // On result event
+        recognition.onresult = function (event) {
+          const command = event.results[0][0].transcript.toLowerCase().trim();
+          console.log("Recognized command:", command);
+          handleVoiceCommand(command);
+        };
+
+        recognition.onerror = function (event) {
+          console.error("Speech recognition error:", event.error);
+        };
+
+        recognition.onend = function () {
+          console.log("Speech recognition ended.");
+        };
+      } else {
+        alert(
+          "Sorry, your browser does not support the Web Speech API. Please use Google Chrome or another supported browser."
+        );
+      }
+
+      function toggleVoiceCommand() {
+        if (recognition) {
+          recognition.start();
+          alert("Voice command mode activated. Please speak now.");
+        }
+      }
+
+      function handleVoiceCommand(command) {
+        // Define your commands and the corresponding actions
+        if (command.includes("home")) {
+          window.location.href = "/home";
+        } else if (command.includes("freelancers")) {
+          window.location.href = "/freelancerSearch";
+        } else if (command.includes("jobs")) {
+          window.location.href = "/jobListings";
+        } else if (command.includes("create a job")) {
+          window.location.href = "/createJobListings";
+        } else if (command.includes("help center")) {
+          window.location.href = "/helpcenter";
+        } else if (command.includes("messaging")) {
+          window.location.href = "/messaging";
+        } else if (command.includes("contracts")) {
+          window.location.href = "/contractManagement";
+        } else if (command.includes("payments")) {
+          window.location.href = "/paymentDashboard";
+        } else if (command.includes("profile")) {
+          window.location.href = "/profile";
+        } else if (command.includes("apply for job")) {
+          // Example to apply for the first job listing (you can customize this logic)
+          const firstJobApplyButton = document.querySelector(".apply-job-btn");
+          if (firstJobApplyButton) {
+            firstJobApplyButton.click();
+          } else {
+            alert("No job available to apply.");
+          }
+        } else {
+          alert(`Command "${command}" not recognized.`);
+        }
+      }
+    </script>
+
+    <style>
+      #voice-command-btn.active {
+        background-color: #28a745;
+        color: white;
+      }
+      .voice-command-btn {
+        background-color: #444;
+        color: #f8f9fa;
+        border-radius: 5px;
+      }
+
+      .notification {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background-color: #28a745;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        transition: opacity 1s ease-in-out;
+      }
+
+      .notification.hide {
+        opacity: 0;
+      }
+
+      .notification-content {
+        display: flex;
+        align-items: center;
+      }
+
+      .notification-content span {
+        margin-left: 10px;
+      }
+    </style>
   </body>
 </html>

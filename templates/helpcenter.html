@@ -1,0 +1,217 @@
+{% extends 'nav.html' %} {% block title %}Help
+<center></center>
+{% endblock %} {% block content %}
+<main class="container">
+  <h1>Help Center</h1>
+  <p>
+    Welcome to our Help Center. Here you can find FAQs, troubleshooting guides,
+    and resources to help you use our platform effectively.
+  </p>
+
+  <!-- Frequently Asked Questions Section -->
+  <section class="faq-card">
+    <div class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq('faq1')">
+          How do I create a job listing?
+        </div>
+        <div class="faq-answer" id="faq1" style="display: none">
+          To create a job listing, navigate to the "Create Job Listing" page and
+          fill out the required details.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq('faq2')">
+          How can I update my profile?
+        </div>
+        <div class="faq-answer" id="faq2" style="display: none">
+          You can update your profile by clicking on your profile icon and
+          selecting "Edit Profile" from the dropdown menu.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq('faq3')">
+          What are the payment methods available?
+        </div>
+        <div class="faq-answer" id="faq3" style="display: none">
+          We support multiple payment methods including credit cards, PayPal,
+          and bank transfers.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Troubleshooting Guides Section -->
+  <section class="troubleshooting-card">
+    <div class="troubleshooting-section">
+      <h2>Troubleshooting Guides</h2>
+      <ul class="guide-list">
+        <li>Account Access Issues</li>
+        <li>Payment Problems</li>
+        <li>Job Posting Errors</li>
+        <li>Communication Difficulties</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Resources Section -->
+  <section class="resources-card">
+    <div class="resources-section">
+      <h2>Resources</h2>
+      <ul class="resource-list">
+        <li>
+          <strong>Getting Started Guide</strong>
+          <p>Learn the basics of using our platform.</p>
+        </li>
+        <li>
+          <strong>Freelancer Best Practices</strong>
+          <p>Tips for successful freelancing on our platform.</p>
+        </li>
+        <li>
+          <strong>Client Hiring Guide</strong>
+          <p>How to find and hire the best freelancers for your projects.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Submit a Support Ticket Section -->
+  <section class="support-card">
+    <div class="support-section">
+      <h2>Submit a Support Ticket</h2>
+      <form action="/submit_support_ticket" method="POST">
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            placeholder="Enter the subject of your issue"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            placeholder="Describe your issue or inquiry"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<script>
+  function toggleFaq(faqId) {
+    const faq = document.getElementById(faqId);
+    if (faq.style.display === "none") {
+      faq.style.display = "block";
+    } else {
+      faq.style.display = "none";
+    }
+  }
+</script>
+
+<style>
+  .container {
+    padding: 20px;
+  }
+
+  .faq-card,
+  .troubleshooting-card,
+  .resources-card,
+  .support-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+
+  .faq-item {
+    margin-bottom: 15px;
+  }
+
+  .faq-question {
+    width: 100%;
+    text-align: left;
+    background: none;
+    padding-left: 10px !important;
+    border: 1px solid #000;
+    border-radius: 5px;
+    color: #444;
+    padding: 10px 0;
+    font-size: 1.1em;
+    cursor: pointer;
+  }
+
+  .faq-answer {
+    padding: 10px 20px;
+    border-left: 3px solid #444;
+    margin-bottom: 10px;
+    color: #ccc;
+  }
+
+  .guide-list,
+  .resource-list {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .guide-list li,
+  .resource-list li {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    color: #444;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .guide-list li,
+  .resource-list li:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .support-card form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    color: #fff;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #fff;
+    color: #444;
+  }
+
+  .btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+{% endblock %}

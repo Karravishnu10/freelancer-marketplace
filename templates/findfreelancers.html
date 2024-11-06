@@ -6,7 +6,7 @@ block content %}
     Search for skilled freelancers based on their expertise, ratings, and
     availability.
   </p>
-  <form action="{{ url_for('find_freelancers') }}" method="POST" class="mb-4">
+  <form action="/find-freelancers" method="GET" class="mb-4">
     <div class="mb-3">
       <input
         type="search"
@@ -32,6 +32,7 @@ block content %}
           class="form-select"
           aria-label="Minimum rating"
         >
+          <option value="">select option</option>
           <option value="1">★☆☆☆☆</option>
           <option value="2">★★☆☆☆</option>
           <option value="3">★★★☆☆</option>
@@ -40,6 +41,9 @@ block content %}
         </select>
       </div>
       <div class="col-md-3">
+        <label for="max-rate"
+          >Maximum Hourly Rate: <span id="max-rate-value">0</span></label
+        >
         <input
           type="range"
           id="max-rate"
@@ -47,8 +51,9 @@ block content %}
           class="form-range"
           min="0"
           max="100"
-          value="50"
+          value="0"
           aria-label="Maximum hourly rate"
+          oninput="updateRateValue()"
         />
       </div>
     </div>
@@ -63,6 +68,11 @@ block content %}
         <p class="card-text">Skills: {{ freelancer.skills }}</p>
         <p class="card-text">Rate: ${{ freelancer.minimum_rate }}/hr</p>
         <p class="card-text">Rating: {{ freelancer.rating }}</p>
+        <a
+          href="{{ url_for('messaging') }}?recipient_id={{ freelancer.id }}"
+          class="btn btn-primary"
+          >Message</a
+        >
       </div>
     </div>
     {% endfor %} {% else %}
@@ -70,4 +80,17 @@ block content %}
     {% endif %}
   </div>
 </main>
+<script>
+  function updateRateValue() {
+    const maxRate = document.getElementById("max-rate");
+    const maxRateValue = document.getElementById("max-rate-value");
+    maxRateValue.textContent = maxRate.value;
+  }
+
+  // Set initial value on page load
+  document.addEventListener("DOMContentLoaded", function () {
+    updateRateValue();
+  });
+</script>
+
 {% endblock %}

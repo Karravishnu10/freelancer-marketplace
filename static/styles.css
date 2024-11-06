@@ -199,6 +199,7 @@ input[type="range"] {
 }
 
 #contact-list {
+  margin-top: 5%;
   float: left;
   width: 30%;
   background: #f0f0f0;
@@ -218,6 +219,7 @@ input[type="range"] {
 }
 
 #message-interface {
+  margin-top: 5%;
   float: right;
   width: 70%;
   height: 80vh;
@@ -230,24 +232,11 @@ input[type="range"] {
   padding: 20px;
 }
 
-#message-input {
-  height: 10%;
-  background: #eee;
-  display: flex;
-}
-
 #message-text {
   flex-grow: 1;
   border: none;
   padding: 10px;
-}
-
-message-input button {
-  border: none;
-  background: #0056b3;
-  color: white;
-  padding: 10px;
-  cursor: pointer;
+  width: 100%;
 }
 
 table {
@@ -565,4 +554,25 @@ form + form {
 
 input[type="text"] {
   margin-bottom: 10px; /* Space between inputs and the next elements */
+}
+
+.tab-link {
+  cursor: pointer;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 4px;
+  text-align: center;
+}
+.tab-link:hover {
+  background-color: #e0e0e0;
+}
+.tab-link.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.disabled-link {
+  pointer-events: none;
+  border: 1px solid #444 !important;
+  background-color: #999 !important;
 }

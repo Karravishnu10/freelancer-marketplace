@@ -11,6 +11,7 @@
         <strong>Minimum Hourly Rate:</strong> ${{ user.minimum_rate }} per hour
       </p>
       <p><strong>Skills:</strong> {{ user.skills }}</p>
+      <p><strong>Rating:</strong> {{ user.rating }}</p>
 
       <h5 class="mt-4">Update Your Profile</h5>
       <form action="{{ url_for('profile') }}" method="POST" class="mt-3">

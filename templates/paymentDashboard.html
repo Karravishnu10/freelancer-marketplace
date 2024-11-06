@@ -1,2 +1,128 @@
-{% extends 'nav.html' %} {% block title %}Find Freelancers{% endblock %} {%
-block content %} {% endblock %}
+{% extends 'nav.html' %} {% block title %}Payment Dashboard{% endblock %} {%
+block content %}
+<main class="container">
+  <h1>Payment Dashboard</h1>
+  <p>Manage your earnings, payment history, and payment methods.</p>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="tab-link" onclick="showTab('earnings-tab')">Earnings</div>
+    </div>
+    <div class="col-md-3">
+      <div class="tab-link" onclick="showTab('paymenthistory-tab')">
+        Payment History
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="tab-link" onclick="showTab('managepayments-tab')">
+        Manage Payments
+      </div>
+    </div>
+  </div>
+
+  <div id="earnings-tab" class="tab-content">
+    <div class="text-center">
+      <h3>Total Earnings</h3>
+      <p>${{ "%.2f"|format(total_earnings) }}</p>
+    </div>
+  </div>
+
+  <div id="paymenthistory-tab" class="tab-content" style="display: none">
+    <div class="paymenthistory-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Contract</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if payments %} {% for payment in payments %}
+          <tr>
+            <td>{{ payment.transaction_date.strftime('%Y-%m-%d') }}</td>
+            <td>${{ "%.2f" % payment.amount }}</td>
+            <td>{{ payment.status }}</td>
+            <td>{{ payment.contract.job.title }}</td>
+          </tr>
+          {% endfor %} {% else %}
+          <tr>
+            <td colspan="4">No payments found.</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="managepayments-tab" class="tab-content" style="display: none">
+    <!-- Completed Contracts as Freelancer -->
+    {% if completed_contracts_as_freelancer %}
+    <h4>Your Completed Contracts (Freelancer)</h4>
+    {% for contract in completed_contracts_as_freelancer %}
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <p>{{ contract.job.title }} - Employer: {{ contract.employer.name }}</p>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary">View Details</button>
+      </div>
+    </div>
+    {% endfor %} {% endif %}
+
+    <!-- Completed Contracts as Employer -->
+    {% if completed_contracts_as_employer %}
+    <h4>Completed Contracts (Employer) - Ready for Payment</h4>
+    {% for contract in completed_contracts_as_employer %}
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <p>
+          {{ contract.job.title }} - Freelancer: {{ contract.freelancer.name }}
+        </p>
+      </div>
+      <div class="col-md-2">
+        <a href="/initiate_payment/{{ contract.id }}" class="btn btn-primary"
+          >Initiate Payment</a
+        >
+      </div>
+    </div>
+    {% endfor %} {% endif %} {% if paid_contracts_as_employer %}
+    <h4>Paid Contracts (Employer) - Payment Transfered</h4>
+    {% for contract in paid_contracts_as_employer %}
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <p>
+          {{ contract.job.title }} - Freelancer: {{ contract.freelancer.name }}
+        </p>
+      </div>
+      <div class="col-md-2">
+        <a href="" class="btn disabled-link">Initiate Payment</a>
+      </div>
+    </div>
+    {% endfor %}{% endif %}
+  </div>
+</main>
+<script>
+  function showTab(tabId) {
+    // Hide all tab contents
+    const tabContents = document.querySelectorAll(".tab-content");
+    tabContents.forEach((tab) => {
+      tab.style.display = "none";
+    });
+
+    // Remove active state from all tab links
+    const tabLinks = document.querySelectorAll(".tab-link");
+    tabLinks.forEach((link) => {
+      link.classList.remove("active");
+    });
+
+    // Show the selected tab content
+    document.getElementById(tabId).style.display = "block";
+
+    // Add active state to the clicked tab link
+    const activeTabLink = document.querySelector(
+      `[onclick="showTab('${tabId}')"]`
+    );
+    activeTabLink.classList.add("active");
+  }
+</script>
+{% endblock %}

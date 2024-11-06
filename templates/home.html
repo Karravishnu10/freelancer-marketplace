@@ -2,19 +2,31 @@
 <section id="welcome-banner">
   <h1>Welcome to Our Freelance Platform</h1>
   <p>Find top talent and exciting job opportunities all in one place.</p>
-  <input
-    type="search"
-    placeholder="Search for jobs"
-    aria-label="Search for jobs"
-  />
-  <button class="btn btn-primary">Search</button>
-  <button class="btn btn-secondary">Find Freelancers</button>
+  <form action="/find-freelancers" method="GET">
+    <input
+      type="search"
+      name="search"
+      placeholder="Search for freelancers"
+      aria-label="Search for freelancers"
+    />
+    <button type="submit" class="btn btn-primary">Search</button>
+    <button
+      onclick="window.location.href='/freelancerSearch'"
+      class="btn btn-secondary"
+    >
+      Find Freelancers
+    </button>
+  </form>
 </section>
-<section id="stats">
-  <div>
-    <strong>Active Freelancers</strong><span>{{ active_freelancers }}</span>
+<section id="stats" class="row">
+  <div class="col-md-6">
+    <strong style="padding-right: 10px">Active Freelancers</strong
+    ><span>{{ active_freelancers }}</span>
   </div>
-  <div><strong>Available Jobs</strong><span>{{ available_jobs }}</span></div>
+  <div class="col-md-6">
+    <strong style="padding-right: 10px">Available Jobs</strong
+    ><span>{{ available_jobs }}</span>
+  </div>
 </section>
 <section id="featured-jobs" class="d-flex justify-content-around">
   <h2>Featured Job Listings</h2>
@@ -28,12 +40,18 @@
   </div>
 </section>
 <section id="top-rated-freelancers" class="d-flex justify-content-around">
-  <h2>Top-Rated Freelancers</h2>
+  <h2>Top-Rated Freelancer</h2>
+  {% if top_rated_user %}
   <div class="card" style="width: 18rem">
     <div class="card-body">
-      <h5 class="card-title">{{ first_user.name }}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">{{ first_user.email }}</h6>
+      <h5 class="card-title">{{ top_rated_user.name }}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{ top_rated_user.email }}</h6>
+      <p class="card-text">Rating: {{ "%.2f" % top_rated_user.rating }}</p>
     </div>
   </div>
+  {% else %}
+  <p>No top-rated freelancer available yet.</p>
+  {% endif %}
 </section>
+
 {% endblock %}

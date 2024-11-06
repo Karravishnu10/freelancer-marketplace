@@ -6,9 +6,9 @@ block content %}
     View and manage your active and past contracts. As a client, you can create
     new contract proposals.
   </p>
-  <button onclick="window.location.href='/create-contract'">
+  <!-- <button onclick="window.location.href='/create-contract'">
     + Create Contract Proposal
-  </button>
+  </button> -->
   <table>
     <thead>
       <tr>
@@ -23,7 +23,7 @@ block content %}
     </thead>
     <tbody>
       {% for contract in contracts %}
-      <tr>
+      <tr data-contract-id="{{ contract.id }}">
         <td>{{ contract.job.title }}</td>
         <td>{{ contract.freelancer.name }}</td>
         <td>{{ contract.employer.name }}</td>
@@ -35,12 +35,25 @@ block content %}
           {{ contract.end_date.strftime('%Y-%m-%d') if contract.end_date else
           '-' }}
         </td>
-        <td>{{ contract.status }}</td>
+        <td id="status-{{ contract.id }}">{{ contract.status }}</td>
         <td>
           <button
-            onclick="window.location.href='/view_contract/{{ contract.id }}'"
+            class="btn btn-primary"
+            data-role="{{ 'employer' if contract.employer_id == user.id else 'freelancer' }}"
+            onclick="showActionPopup('{{ contract.id }}', this.getAttribute('data-role'))"
           >
             View
+          </button>
+          <button
+            class="btn btn-secondary rating-btn"
+            id="rating-btn-{{ contract.id }}"
+            data-contract-status="{{ contract.status }}"
+            data-user-id="{{ user.id }}"
+            data-employer-id="{{ contract.employer_id }}"
+            data-freelancer-id="{{ contract.freelancer_id }}"
+            onclick="showRatingPopup('{{ contract.id }}', this.getAttribute('data-role'))"
+          >
+            Rating
           </button>
         </td>
       </tr>
@@ -52,4 +65,208 @@ block content %}
     </tbody>
   </table>
 </main>
+<!-- Modal for Actions -->
+<div id="actionModal" class="modal" style="display: none">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>Choose an Action</h2>
+    <div id="action-buttons"></div>
+    <!-- Ensure the ID is exactly 'action-buttons' -->
+  </div>
+</div>
+
+<div id="ratingModal" class="modal" style="display: none">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>Rate the User</h2>
+    <label for="rating">Rating (1-5):</label>
+    <input type="number" id="rating" name="rating" min="1" max="5" />
+    <button onclick="submitRating()">Submit Rating</button>
+  </div>
+</div>
+
+<script>
+  let currentContractId = null;
+
+  function updateRatingButtons() {
+    // Select all rating buttons on the page
+    const ratingButtons = document.querySelectorAll(".rating-btn");
+
+    ratingButtons.forEach(function (button) {
+      // Get necessary data attributes from the button
+      const contractStatus = button.getAttribute("data-contract-status");
+      const userId = button.getAttribute("data-user-id");
+      const employerId = button.getAttribute("data-employer-id");
+      const freelancerId = button.getAttribute("data-freelancer-id");
+
+      // Check the conditions to enable or disable the button
+      if (
+        (contractStatus === "completed" && userId === employerId) ||
+        (contractStatus === "Paid" && userId === freelancerId)
+      ) {
+        button.disabled = false; // Enable the button
+      } else {
+        button.disabled = true; // Disable the button
+      }
+    });
+  }
+
+  // Run the function initially when the DOM is loaded
+  document.addEventListener("DOMContentLoaded", function () {
+    updateRatingButtons();
+  });
+
+  function showActionPopup(contractId, role) {
+    const actionModal = document.getElementById("actionModal");
+    const actionButtons = document.getElementById("action-buttons");
+
+    actionButtons.innerHTML = "";
+
+    if (role === "employer") {
+      actionButtons.innerHTML = `
+        <button onclick="updateContractStatus(${contractId}, 'withdraw')">Withdraw Contract</button>
+      `;
+    } else if (role === "freelancer") {
+      actionButtons.innerHTML = `
+        <button onclick="updateContractStatus(${contractId}, 'in progress')">In Progress</button>
+        <button onclick="updateContractStatus(${contractId}, 'completed')">Completed</button>
+        <button onclick="updateContractStatus(${contractId}, 'pending')">Pending</button>
+      `;
+    }
+
+    actionModal.style.display = "block";
+  }
+
+  function showRatingPopup(contractId, role) {
+    currentContractId = contractId; // Save contract ID for later use
+    document.getElementById("ratingModal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("actionModal").style.display = "none";
+    document.getElementById("ratingModal").style.display = "none";
+  }
+
+  function submitRating() {
+    const rating = document.getElementById("rating").value;
+
+    if (rating < 1 || rating > 5) {
+      alert("Please provide a rating between 1 and 5.");
+      return;
+    }
+
+    fetch(`/rate_user/${currentContractId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ rating: rating }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          alert("Rating submitted successfully!");
+          closeModal();
+        } else {
+          alert(data.error);
+        }
+      })
+      .catch((error) => {
+        console.error("Error submitting rating:", error);
+        alert("An error occurred. Please try again.");
+      });
+  }
+  function updateContractStatus(contractId, action) {
+    let status;
+
+    if (action === "withdraw") {
+      status = "withdrawn";
+    } else if (
+      ["in progress", "completed", "pending", "paid"].includes(action)
+    ) {
+      status = action;
+    }
+
+    fetch(`/update_contract_status/${contractId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: status }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          if (action === "withdraw") {
+            // Select and remove the contract row using data-contract-id attribute
+            const contractRow = document.querySelector(
+              `tr[data-contract-id="${contractId}"]`
+            );
+            if (contractRow) {
+              contractRow.remove();
+            } else {
+              console.error(`Row with contract ID ${contractId} not found.`);
+            }
+          } else {
+            // Update the contract status in the UI
+            const statusElement = document.getElementById(
+              `status-${contractId}`
+            );
+            if (statusElement) {
+              statusElement.innerText = status;
+
+              // Update the button's data-contract-status attribute
+              const ratingButton = document.querySelector(
+                `#rating-btn-${contractId}`
+              );
+              if (ratingButton) {
+                ratingButton.setAttribute("data-contract-status", status);
+              }
+
+              // Call updateRatingButtons to enable or disable buttons accordingly
+              updateRatingButtons();
+            }
+          }
+          closeModal();
+        } else {
+          alert("Failed to update contract status. Please try again.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating contract status:", error);
+        alert("An error occurred. Please try again.");
+      });
+  }
+</script>
+<style>
+  .modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+  }
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+</style>
 {% endblock %}

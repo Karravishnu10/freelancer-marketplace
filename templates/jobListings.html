@@ -1,5 +1,17 @@
 {% extends 'nav.html' %} {% block title %}Job Listings{% endblock %} {% block
-content %}
+content %} {% with messages = get_flashed_messages(with_categories=true) %} {%
+if messages %}
+<div id="flash-messages" style="display: none">
+  {% for category, message in messages %}
+  <div
+    class="flash-message alert alert-{{ category }}"
+    data-category="{{ category }}"
+  >
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %} {% endwith %}
 <main class="joblistingcontainer my-5">
   <h1 class="text-center mb-4">Job Listings</h1>
   <p class="text-center mb-4">
@@ -63,4 +75,72 @@ content %}
     {% endfor %}
   </section>
 </main>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Select all flash messages
+    const flashMessagesContainer = document.getElementById("flash-messages");
+    if (flashMessagesContainer) {
+      const flashMessages =
+        flashMessagesContainer.querySelectorAll(".flash-message");
+
+      // Iterate over each message and display it
+      flashMessages.forEach(function (messageElement) {
+        const category = messageElement.getAttribute("data-category");
+        const text = messageElement.textContent;
+
+        if (category === "success" || category === "error") {
+          showNotification(text);
+        }
+      });
+    }
+  });
+
+  function showNotification(message) {
+    const notification = document.createElement("div");
+    notification.className = "notification ${category}";
+    notification.innerHTML = `
+      <div class="notification-content">
+        <span>${message}</span>
+      </div>
+    `;
+    document.body.appendChild(notification);
+
+    // Automatically hide the notification after 5 seconds
+    setTimeout(() => {
+      notification.classList.add("hide");
+      setTimeout(() => {
+        notification.remove();
+      }, 1000);
+    }, 5000);
+  }
+</script>
+
+<style>
+  .notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #28a745;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: opacity 1s ease-in-out;
+    z-index: 1000; /* Ensure it appears above other content */
+  }
+
+  .notification.hide {
+    opacity: 0;
+  }
+
+  .notification-content {
+    display: flex;
+    align-items: center;
+  }
+
+  .notification-content span {
+    margin-left: 10px;
+  }
+</style>
+
 {% endblock %}

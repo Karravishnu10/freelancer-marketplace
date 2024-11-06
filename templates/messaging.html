@@ -3,25 +3,85 @@ content %}
 <main class="container">
   <h1>Messaging</h1>
   <p>View and manage your conversations with other users.</p>
+
+  <!-- Contact List Section -->
   <div id="contact-list">
-    <div class="contact">
-      <img src="path_to_default_avatar.png" alt="User Avatar" />
+    {% if contacts %} {% for contact in contacts %}
+    <div class="contact" onclick="loadConversation('{{ contact.id }}')">
       <div>
-        <h2>Freelancer One</h2>
-        <p>41Perry84@yahoo.com</p>
+        <h2>{{ contact.name }}</h2>
+        <p>{{ contact.email }}</p>
       </div>
     </div>
-    <!-- More contacts -->
+    {% endfor %} {% else %}
+    <p>No contacts found.</p>
+    {% endif %}
   </div>
+
+  <!-- Message Interface Section (Displayed Only if Recipient Exists) -->
+  {% if recipient %}
   <div id="message-interface">
     <div id="messages">
-      <!-- Messages will be dynamically loaded here -->
+      <h3>Conversation with {{ recipient.name }}</h3>
+      {% if messages %} {% for message in messages %}
+      <div
+        class="message {% if message.sender_id == current_user_id %}sent{% else %}received{% endif %}"
+      >
+        <p>{{ message.content }}</p>
+        <small>{{ message.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+      </div>
+      {% endfor %} {% else %}
+      <p>No messages yet. Start the conversation now!</p>
+      {% endif %}
     </div>
-    <div id="message-input">
-      <input type="text" placeholder="Type a message" id="message-text" />
-      <button onclick="sendMessage()">Send</button>
-      <button onclick="sendVoiceMessage()">Voice</button>
+
+    <!-- Message Input (Displayed Only if There is a Conversation Partner) -->
+    <div id="message-input" class="row">
+      <div class="col-md-6">
+        <input type="text" placeholder="Type a message" id="message-text" />
+      </div>
+      <div class="col-md-3"><button onclick="sendMessage()">Send</button></div>
+      <div class="col-md-3">
+        <button onclick="sendVoiceMessage()">Voice</button>
+      </div>
     </div>
   </div>
+  {% else %}
+  <!-- If the user has no conversations, display a message prompting them to select a contact -->
+  <p>Select a contact to start a conversation.</p>
+  {% endif %}
 </main>
+
+<script>
+  // Function to load conversation
+  function loadConversation(userId) {
+    // Use AJAX to load the conversation between the logged-in user and the selected user
+    window.location.href = `/messaging?recipient_id=${userId}`;
+  }
+
+  // Function to send a message
+  function sendMessage() {
+    const messageText = document.getElementById("message-text").value;
+    const recipientId = "{{ recipient.id }}";
+
+    if (messageText.trim() !== "") {
+      fetch("/send_message", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          recipient_id: recipientId,
+          message: messageText,
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          location.reload(); // Reload messages to include the new one
+        } else {
+          alert("Failed to send message. Please try again.");
+        }
+      });
+    }
+  }
+</script>
 {% endblock %}
