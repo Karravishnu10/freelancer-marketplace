@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, request
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_migrate import Migrate
 from alembic import op
 import sqlalchemy as sa
-from flask import jsonify
 import stripe
+import os
 from functools import wraps
 import logging
 
@@ -701,6 +701,6 @@ def logout():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+        add_categories()
     
-    add_categories()
     app.run(debug=True)
