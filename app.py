@@ -12,8 +12,8 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/site.db?timeout=30'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/site.db?timeout=30'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/site.db?timeout=30'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/site.db?timeout=30'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'your_secret_key'  # Change this to a real secret key in production sqlite:///site.db?timeout=30
@@ -111,27 +111,6 @@ class Notification(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.now())
 
     user = db.relationship('User', backref='notifications')
-
-
-with app.app_context():
-    if os.path.exists('/tmp/site.db'):
-        os.remove('/tmp/site.db')
-    if not os.path.exists('/tmp/site.db'):
-        db.create_all()
-        add_categories()
-        app.logger.debug('Database and categories created at /tmp/site.db')
-
-    os.chmod('/tmp/site.db', 0o666)
-
-@app.before_request
-def before_request_func():
-    if not os.path.exists('/tmp/site.db'):
-        with app.app_context():
-            db.create_all()
-            add_categories()
-        # Set permissions for the database file
-        os.chmod('/tmp/site.db', 0o666)
-        app.logger.debug('Database recreated and categories added at /tmp/site.db')
 
 
 @app.route('/')
@@ -719,10 +698,8 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
-    # with app.app_context():
-    #     if not os.path.exists('/tmp/site.db'):
-    #         db.create_all()
-    #         add_categories()
-    #     app.logger.debug('Database and categories created at /tmp/site.db') 
+    with app.app_context():
+        db.create_all()
+        add_categories()
     
     app.run(debug=True, threaded=False)
