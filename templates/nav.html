@@ -74,67 +74,57 @@
               >Payments</a
             >
           </li>
-          <li>
+          <li role="none">
             <button
               id="voice-command-btn"
               onclick="toggleVoiceCommand()"
               class="voice-command-btn"
               aria-label="Activate voice command"
+              jf-ext-button-ct="voice command"
+              role="menuitem"
             >
               Voice Command
             </button>
           </li>
 
-          <div
-            class="hamburger-menu"
-            aria-haspopup="true"
-            aria-expanded="false"
-            aria-label="Toggle Menu"
-            onclick="toggleMenu()"
-          >
-            <svg
-              width="25px"
-              height="25px"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+          <li role="none">
+            <button
+              class="hamburger-menu btn btn-link"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-label="Toggle Menu"
+              onclick="toggleMenu()"
+              role="menuitem"
             >
-              <g clip-path="url(#clip0_429_11066)">
-                <path
-                  d="M3 6.00092H21M3 12.0009H21M3 18.0009H21"
-                  stroke="#f8f9fa"
-                  stroke-width="2.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_429_11066">
-                  <rect
-                    width="24"
-                    height="24"
-                    fill="white"
-                    transform="translate(0 0.000915527)"
-                  />
-                </clipPath>
-              </defs>
-            </svg>
-            <ul class="dropdown-menu" id="hamburgerDropdown">
+              &#9776;
+            </button>
+            <ul
+              class="dropdown-menu"
+              id="hamburgerDropdown"
+              role="menu"
+              aria-expanded="false"
+              style="display: block"
+            >
               <li role="none">
-                <div
+                <button
                   id="accessibilityButton"
                   role="menuitem"
                   onclick="toggleAccessibilityPanel()"
+                  class="dropdown-item"
+                  aria-label="Accessibility Settings"
                 >
                   Accessibility Settings
-                </div>
+                </button>
               </li>
               <li role="none">
-                <a role="menuitem" href="/helpcenter">Help Center</a>
+                <a href="/helpcenter" role="menuitem" class="dropdown-item"
+                  >Help Center</a
+                >
               </li>
             </ul>
-          </div>
-          <li>
+          </li>
+
+          <li role="none">
             <a
               role="menuitem"
               href="/profile"
@@ -152,31 +142,135 @@
       role="dialog"
       aria-labelledby="accessibilityTitle"
       aria-hidden="true"
-      style="display: none; left: -260px; position: fixed"
+      style="
+        display: none;
+        left: -260px;
+        position: fixed;
+        background-color: #f4f4f4;
+      "
     >
-      <h3>Accessibility Tools</h3>
+      <h3 id="accessibilityTitle">Accessibility Tools</h3>
       <ul>
-        <li><button onclick="increaseText()">🔍 Increase Text</button></li>
-        <li><button onclick="decreaseText()">🔍 Decrease Text</button></li>
-        <li><button onclick="toggleGrayscale()">🎨 Grayscale</button></li>
         <li>
-          <button onclick="toggleHighContrast()">🌓 High Contrast</button>
+          <button
+            onclick="increaseText()"
+            jf-ext-button-ct="🔍 increase text"
+            style="
+              color: #000000;
+              background-color: #ffffff;
+              border: 1px solid #000000;
+            "
+          >
+            🔍 Increase Text
+          </button>
         </li>
         <li>
-          <button onclick="toggleNegativeContrast()">
+          <button
+            onclick="decreaseText()"
+            jf-ext-button-ct="🔍 decrease text"
+            style="
+              color: #000000;
+              background-color: #ffffff;
+              border: 1px solid #000000;
+            "
+          >
+            🔍 Decrease Text
+          </button>
+        </li>
+        <li>
+          <button
+            onclick="toggleGrayscale()"
+            jf-ext-button-ct="🎨 grayscale"
+            style="
+              color: #000000;
+              background-color: #ffffff;
+              border: 1px solid #000000;
+            "
+          >
+            🎨 Grayscale
+          </button>
+        </li>
+        <li>
+          <button
+            onclick="toggleHighContrast()"
+            jf-ext-button-ct="🌓 high contrast"
+            style="
+              color: #000000;
+              background-color: #ffffff;
+              border: 1px solid #000000;
+            "
+          >
+            🌓 High Contrast
+          </button>
+        </li>
+        <li>
+          <button
+            onclick="toggleNegativeContrast()"
+            jf-ext-button-ct="⚫ negative contrast"
+            style="
+              color: #000000;
+              background-color: #ffffff;
+              border: 1px solid #000000;
+            "
+          >
             ⚫ Negative Contrast
           </button>
         </li>
         <li>
-          <button onclick="toggleLightBackground()">🌞 Light Background</button>
+          <button
+            onclick="toggleLightBackground()"
+            jf-ext-button-ct="🌞 light background"
+            style="
+              color: #000000;
+              background-color: #ffffff;
+              border: 1px solid #000000;
+            "
+          >
+            🌞 Light Background
+          </button>
         </li>
-        <li><button onclick="underlineLinks()">🔗 Links Underline</button></li>
         <li>
-          <button onclick="toggleReadableFont()">👓 Readable Font</button>
+          <button
+            onclick="underlineLinks()"
+            jf-ext-button-ct="🔗 links underline"
+            style="
+              color: #000000;
+              background-color: #ffffff;
+              border: 1px solid #000000;
+            "
+          >
+            🔗 Links Underline
+          </button>
         </li>
-        <li><button onclick="resetAccessibility()">🔄 Reset</button></li>
+        <li>
+          <button
+            onclick="toggleReadableFont()"
+            jf-ext-button-ct="👓 readable font"
+            style="
+              color: #000000;
+              background-color: #ffffff;
+              border: 1px solid #000000;
+            "
+          >
+            👓 Readable Font
+          </button>
+        </li>
+        <li>
+          <button
+            onclick="resetAccessibility()"
+            jf-ext-button-ct="🔄 reset"
+            style="
+              color: #000000;
+              background-color: #ffffff;
+              border: 1px solid #000000;
+            "
+          >
+            🔄 Reset
+          </button>
+        </li>
       </ul>
     </div>
+
     <div id="notifications-container" style="display: none">
       {% for notification in notifications %}
       <div
